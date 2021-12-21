@@ -1,0 +1,43 @@
+input_ave_0:Enter option
+input_ave_1:   1. Simulation
+input_ave_2:   2. Visualization
+input_ave_3:   3. Both
+num_err:Sorry, only numbers are accepted.
+options_err:Sorry, please choose one of the given options.
+yes_no_err:Sorry, please choose yes ('y') or no ('n').
+pgen_fail_1:ERROR - The source problem file Athena++ uses to run the
+pgen_fail_2:        simulation is not present in the athena/src/pgen folder
+pgen_fail_3:        it needs to be in. It should have the same filename as
+pgen_fail_4:        the extension of the input file, e.g., 'cgm.cpp' for the
+pgen_fail_5:        'athinput.cgm' input file. Please move such a source
+pgen_fail_6:        problem file to that folder if possible; if not then one
+pgen_fail_7:        will need to be written. (See docs.)
+path_err_1:Couldn't find the input file in the Athena bin folder. Let's try
+path_err_2:   identifying it. (NOTE - It's best if you manually find an input file
+path_err_3:   and move it to the bin folder, this is not comprehensively reliable.)
+input_prob:Please enter an exact problem file ID.
+prob_err:Invalid problem ID. Here are what's available in hydro and MHD.
+path_warn_1:Tried to automatically move appropriate input file. If you don't
+path_warn_2:   see it in the Athena++ bin folder, then you'll have to manually
+path_warn_3:   move the file their yourself; otherwise it may not exist and
+path_warn_4:   you'll need to (re)download one or make one. (See documentation
+path_warn_5:   about making an input file.)
+path_warn_6:Also, this is assuming that athinput file extension is problem ID.
+path_warn_7:   This is usually true but not always.
+ext_err_1:AVE currently only accepts .vtk extensions for rendering
+ext_err_2:    simulation output, with planned support for .ahdf in the
+ext_err_3:    future to support parallel processing.
+ext_out_y:Alright, continuing on then...
+ext_out_n:Noted. Switching off visualization.
+input_ext:Is this okay? (y/n)
+input_mag_field:Use magnetic fields? (y/n)
+input_var_0:Choose variable.
+input_var_1:1. Density
+input_var_2:2. Pressure
+input_var_3:3. Magnetic Field Strength
+input_min:Minimum variable quantity - 
+input_max:Maximum variable quantity - 
+processing:Determining variables for processing...
+get_data:Retrieving data...
+enjoy:Processing and rendering complete. Enjoy your movie!
+thanks:Everything is done as it can be done. Thanks for using the AVE!
