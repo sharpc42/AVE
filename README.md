@@ -2,9 +2,9 @@
 
 Welcome to the AVE! This is a Python wrapper for the Athena++ astrophysics code. 
 
-Currently this only tested for MacOS, but it'll probably work well enough with Linux. 
-No promises for Windows as of yet, but that support is tentatively planned for the 
-near-ish future.
+Currently this is mainly tested for MacOS, but as of May 13, 2022 it should play
+nice with WSL for Windows (see Windows-specific instructions below) and likely
+Linux as well, but the latter has not been explicitly tested outside of WSL.
 
 ## If You Already Have Athena++
 
@@ -46,12 +46,35 @@ downloaded it.
 - Type in `chmod +x ave.py` to make the main AVE file executable. This has to be done 
 locally on the computer in question.
 
+## Starting AVE
+
+To run the AVE is simple enough. Type in `./ave.py` and follow the on-screen instructions.
+
+## Windows-specific Advice
+
+To run on Windows currently, you'll need to use a Linux emulator of some sort. Cygwin is 
+a popular option but I like [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install) better. Here's my process,
+good for "Windows 10 version 2004 and higher (Build 19041 and higher) or Windows 11":
+
+- Install Python3 via the Windows store
+- Run Powershell as administrator (needs privileges)
+- Type `wsl --install` to install WSL or Windows Subsystem for Linux, basically a CLI Ubuntu emulator
+- Restart computer to complete installation process
+- Create UNIX account when prompted (basically equivalent to local user account)
+- Enter command `sudo apt update`
+- Enter password when prompted (the one from two steps ago)
+- Enter command `sudo apt install python3-pip`
+- Enter command `sudo apt install python-is-python3`
+- Git clone AVE like above
+- Run through setup.sh same as above
+- Use "python ave.py" to start AVE
+
+But as long as you're in a Linux emulator, if you're a fan of Cygwin or something, then more or less following the original setup instructions should work. There should be no additional difficulties or issues with visualizing output so long as your machine can do .png and .mp4 files.
+
 ## General Use
 
 Alright, now you're ready to rock n' roll (an underpressurized cloud into a supporting 
 magnetic field). 
-
-To run the AVE is simple enough. Type in `./ave.py` and follow the on-screen instructions.
 
 First you'll be prompted to say if you're looking to run the simulation, visualize the 
 output, or both at once. Just simulating saves time, while visualizing the output alone 
