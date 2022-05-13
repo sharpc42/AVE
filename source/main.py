@@ -84,22 +84,15 @@ def main():
         
         for i in  range(0,len(paramlines)):
             line = paramlines[i]
-            if "configure" in line:
+            if "problem_id" in line:
                 config_line = line.split()
-                if len(config_line) == 3: problem = config_line[2].split('=')[1]
-                else:
-                    for i in range(2,4):
-                        line = config_line[i]
-                        if line == '-b': mag_fields = True
-                        elif line.split('=')[0] == '--prob':
-                            problem = line.split('=')[1]
-    
+                problem = config_line[2].split('=')[0]
         file_ext = input_file[0].split('.')[-1]  # get input file extension
         print('\n*Athena problem file found: ' + problem + '*\n')
         
         # check if appropriate source file exists using problist
         # (fatal error if not as sim needs this file)
-        if not problem in problist:
+        if not problem.lower() in problist:
             pgen_fail_str = ""
             for i in range(1,8):
                 pgen_fail_str += messages['pgen_fail_'+str(i)] + '\n'
@@ -140,7 +133,8 @@ def main():
         while not move_on:
             move_on = True
             user_input = input('\n' + messages['input_prob'] + '\n')
-            if user_input in problist: problem = user_input
+            if user_input in problist: 
+                problem = user_input
             else:
                 print(messages['prob_err'] + '\n')
                 print('Hydro')
@@ -150,9 +144,9 @@ def main():
                 move_on = False
                 
         # go ahead and get magnetic fields from user choice
-        if problem in mhdlist and problem not in hydrolist:
+        if problem.lower() in mhdlist and problem.lower() not in hydrolist:
             mag_fields = True   # since user selected from mhd exclusively
-        elif problem in mhdlist and problem in hydrolist:
+        elif problem.lower() in mhdlist and problem.lower() in hydrolist:
             move_on = False
             while not move_on:
                 move_on = True
@@ -164,9 +158,9 @@ def main():
                     print(messages['yes_no_err'])
         
         if mag_fields:
-            os.system('cp ' + input_mhd_path + problem + ' ' + dest_folder_path)
+            os.system('cp ' + input_mhd_path + problem.lower() + ' ' + dest_folder_path)
         else:
-            os.system('cp ' + input_hydro_path + problem + ' ' + dest_folder_path)
+            os.system('cp ' + input_hydro_path + problem.lower() + ' ' + dest_folder_path)
         for i in range(1,8): print(messages['path_warn_'+str(i)])
         file_ext = problem
         print('')
@@ -282,10 +276,9 @@ def main():
     if sim:
     
         if config_athena:
-            os.system('sh library/config_athena.sh ' + problem + ' ' + mag_flag)
-        
-        print('***TEST - ' + file_ext + '***')
-        os.system('sh library/run_athena.sh ' + file_ext)
+            os.system('sh library/config_athena.sh ' + problem.lower() + ' ' + mag_flag)
+
+        os.system('bash library/run_athena.sh ' + file_ext)
         
         
     # ------------------------------------------

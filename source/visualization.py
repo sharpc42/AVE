@@ -63,7 +63,7 @@ class Visualizer:
     def get_params(self):
     
         cwd = os.getcwd()
-        file_path = cwd + '/athena/bin/athinput.' + self.__problem
+        file_path = cwd + '/athena/bin/athinput.' + self.__problem.lower()
         paraminput = open(file_path)
         paramlines = [line.strip() for line in paraminput]
         
@@ -105,7 +105,7 @@ class Visualizer:
         
     # scalar quantity assumed; will support vectors in the future
     def get_data(self):
-    
+   
         self.__data = process.file_data(self.__var,
                                         self.__prefix,
                                         self.__suffix,

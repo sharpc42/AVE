@@ -17,6 +17,7 @@
 # Handles rendering and animating of data passed in from outside
 
 import os
+import sys
 
 import imageio as imio
 import matplotlib.pyplot as plt
@@ -55,15 +56,18 @@ class Artist:
     def __render(self,n):
 
         try:
+            qmx_actual = self.__qmx
             if self.__qmx == 0:
-                self.__qmx = np.max(self.__data[n])
-                
+                qmx_actual = np.max(self.__data[n])
+            
             fig = plt.figure()
             img = plt.imshow(self.__data[n],
-                             extent=[self.__xmn,self.__xmx,
-                                    self.__ymn,self.__ymx],
+                             extent=[self.__xmn,
+                                     self.__xmx,
+                                     self.__ymn,
+                                     self.__ymx],
                              vmin=self.__qmn,
-                             vmax=self.__qmx,
+                             vmax=np.max(self.__data[n]),
                              origin='lower')
                              
             file = fnm.create_filename(self.__prefix,'.png',n)
@@ -77,12 +81,13 @@ class Artist:
             plt.close(fig)
             
             print('   Created image ' + str(n+1))
-            
-        except:
+                    
+        except Exception as e:
             self.__failed = True
             print('\nERROR: No valid output file to render.')
             print('Are there any left, and is the output file type .vtk?')
-      
+            print('syserror:',e)
+
     # animate output by rendering individual images then bringing together
     def animate(self,type):
     
@@ -90,7 +95,6 @@ class Artist:
         
         __gif_file = 'output/render.gif'
         __anm_file = 'output/render.mp4'
-        
         for i in range(self.__num):
             self.__render(i)
         if self.__failed:
@@ -120,9 +124,10 @@ class Artist:
             
             print('\nImages saved in folder in "output."\n')
             
-        except:
+        except Exception as e:
             print('ERROR: Animation failed. Did rendering also fail?')
-     
+            print('       ' + str(e))
+
     ### Public get/set methods for class member fields
     
     # num
