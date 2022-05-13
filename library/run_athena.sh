@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #  run_athena.sh
 #
@@ -22,24 +22,24 @@ if [ $COUNT != 0 ]
   then
   
     ANSWERED=false
-    while [ $ANSWERED == 'false' ]
+    while [ $ANSWERED = 'false' ]
       do
         echo "Athena files found. Run anyway? This will overwrite files. (y/n)?"
         
-        read OVERWRITE
-        OW_FIRST=${OVERWRITE:0:1}
-        
-        if [[ $OW_FIRST == 'y' ]]
+        read OVERWRITE && [ $OVERWRITE = [yY] ]
+
+	if [[ $OVERWRITE == [yY] || $OVERWRITE == [yY][eE][sS] ]]
           then
             ANSWERED=true
             
             FOUND_ATHENA='false'
-            while [ $FOUND_ATHENA == 'false' ]
+            while [ $FOUND_ATHENA = 'false' ]
               do
                 if [ -f athena/bin/athena ]
                   then
                     FOUND_ATHENA='true'
                     rm output/*.vtk
+		    
                     
                     echo "\nPress any key to begin. (This may take a while.)"
                     read -n 1
@@ -59,8 +59,8 @@ if [ $COUNT != 0 ]
                 fi
               done
             
-        elif [[ $OW_FIRST == 'n' ]]
-          then
+        elif [[ $OVERWRITE == [nN] || $OVERWRITE == [nN][oO] ]]
+	then
             ANSWERED=true
             echo "Understood. Skipping simulation.\n"
             

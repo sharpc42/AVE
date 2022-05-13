@@ -16,13 +16,12 @@
 
 cd athena
 echo "./configure.py --prob $1"
-
 MAKE='True'
 
-if [[ $2 == 'True' ]]
+if [ $2 = 'True' ]
   then
     ./configure.py --prob $1 -b
-elif [[ $2 == 'False' ]]
+elif [ $2 = 'False' ]
   then
     ./configure.py --prob $1
 else
@@ -30,7 +29,7 @@ else
     MAKE='False'
 fi
 
-if [[ $MAKE == 'True' ]]
+if [ $MAKE = 'True' ]
   then
     make clean
     make

@@ -20,24 +20,24 @@ def file_data(var,prefix,suffix,num,vector):
     cwd  = os.getcwd()
     
     for n in range(int(num) + 1):
-        try:
-            file = fnm.create_filename(prefix,suffix,n)
+        #try:
+        file = fnm.create_filename(prefix,suffix,n)
             
-            # scalar case; vector support later
-            if vector is False:
-                x,y,z,q = athena.vtk(file)  # only vtk support now
-                data.append(q[var][0])      # Just want quantity data
-            else: pass
+        # scalar case; vector support later
+        if vector is False:
+            x,y,z,q = athena.vtk(file)  # only vtk support now
+            data.append(q[var][0])      # Just want quantity data
+        else: pass
                 
-        except:
-            error = """
+        #except:
+            #error = """
                     
                     #ERROR: Output files do not exist past file {0}.
                     #       Perhaps the simulation did not quite finish?
                     #       Files before that have been handled successfully.
                     
-                    """
-            error.format(n-1)
-            break
-
+                    #"""
+            #error.format(n-1)
+            #break
+        #"""
     return data
