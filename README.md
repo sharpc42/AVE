@@ -24,10 +24,13 @@ inflexible.
 
 Run the setup script by typing
 
-    sh setup.sh
+    bash setup.sh
 
 into the terminal while in the AVE top directory. This should get Athena++ for you as 
 well as all necessary missing Python modules.
+
+(If you have an error you can try `sh setup.sh` instead but this tends to have errors
+at least in Linux environments.)
 
 ## Manual Setup
 
