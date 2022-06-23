@@ -27,10 +27,12 @@ Run the setup script by typing
     bash setup.sh
 
 into the terminal while in the AVE top directory. This should get Athena++ for you as 
-well as all necessary missing Python modules.
+well as all necessary missing Python modules. If you have Anaconda or Miniconda, make
+sure you are in the environment you'll be using before running and answer "y(es)" when
+prompted, since they have their own conda install command to be run in the environment.
 
 (If you have an error you can try `sh setup.sh` instead but this tends to have errors
-at least in Linux environments.)
+of its own, at least in Linux environments.)
 
 ## Manual Setup
 
