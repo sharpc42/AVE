@@ -157,7 +157,7 @@ def main():
         # get user input and display options if needed
         while True:
             user_input = input('\n' + messages['input_prob'] + '\n')
-            if user_input in problist: 
+            if user_input in problist:
                 prob_src = user_input
                 break
             else:
@@ -329,6 +329,7 @@ def main():
                     sys.exit(config_err_str)
 
         os.system('bash library/run_athena.sh ' + prob_in)
+
 
 
     # ------------------------------------------
