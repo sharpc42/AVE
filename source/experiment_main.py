@@ -20,20 +20,27 @@ import sys
 
 from .visualization import Visualizer
 
+global prob_out
+global prob_src
+global prob_in
+global config_line
+global mag_fields
+
 def main():
 
     # three prob IDs to get
     prob_out    = ''
     prob_src    = ''
     prob_in     = ''
+
     config_line = ''
 
-    user_input = 0
+    #global user_input = 0
 
-    force_config = False
-    mag_fields   = False
-    sim          = False
-    viz          = False
+    #global force_config = False
+    #mag_fields = False
+    #global sim          = False
+    #global viz          = False
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', help="force configuration", action='store_true')
@@ -84,48 +91,18 @@ def main():
     input_file = [c for c in contents if 'athinput' in c]
     input_file.sort()   # alphabetical order used if multiple files
 
-    os.system('sh library/getprobfiles.sh')  # using source pgen files
-    p = open('problist.txt','r')
-    problist = p.read().splitlines()
-    os.system('rm problist.txt')
+    # ---------------------------------
+    # Get problem IDs from manual input
+    # ---------------------------------
 
-    # found input file automatically
-    if input_file:
+    def getProblemManually():
 
-        paraminput = open('athena/bin/' + input_file[0])
-        paramlines = [line.strip() for line in paraminput]
+        mag_fields = False
 
-        for i in  range(0,len(paramlines)):
-            line = paramlines[i]
-
-            if "variable" in line:
-                var_type = line.split('=')[-1].split()[0]  # get prim/cons variable
-
-            if "configure" in line:
-                eq = line.find('=')
-                config_line = line[eq+2:].replace("==","=")  # get configuration
-                if '-b' in config_line:
-                    mag_fields = True  # detected automatically
-                for arg in config_line.split():
-                    if '--prob' in arg:
-                        prob_src = arg.split('=')[-1]  # get config prob ID
-
-            if "problem_id" in line:
-                prob_out = line.split()[2].split('=')[0]  # get output prob ID
-
-        prob_in = input_file[0].split('.')[-1]  # get input prob ID
-        print('\n*Athena problem file found: ' + prob_src + '*\n')
-
-        # check if appropriate source file exists using problist
-        # (fatal error if not as sim needs this file)
-        if not prob_src.lower() in problist:
-            pgen_fail_str = ""
-            for i in range(1,8):
-                pgen_fail_str += messages['pgen_fail_'+str(i)] + '\n'
-            sys.exit(pgen_fail_str)
-
-    # input file can't be found automatically
-    else:
+        os.system('sh library/getprobfiles.sh')  # using source pgen files
+        p = open('problist.txt','r')
+        problist = p.read().splitlines()
+        os.system('rm problist.txt')
 
         input_hydro_path = 'athena/inputs/hydro/athinput.'
         input_mhd_path   = 'athena/inputs/mhd/athinput.'
@@ -204,6 +181,47 @@ def main():
         # caution to check to make sure right file
         for i in range(1,8): print(messages['path_warn_'+str(i)])
         print('')
+
+
+
+    # found input file automatically
+    if input_file:
+
+        paraminput = open('athena/bin/' + input_file[0])
+        paramlines = [line.strip() for line in paraminput]
+
+        for i in  range(0,len(paramlines)):
+            line = paramlines[i]
+
+            if "variable" in line:
+                var_type = line.split('=')[-1].split()[0]  # get prim/cons variable
+
+            if "configure" in line:
+                eq = line.find('=')
+                config_line = line[eq+2:].replace("==","=")  # get configuration
+                if '-b' in config_line:
+                    mag_fields = True  # detected automatically
+                for arg in config_line.split():
+                    if '--prob' in arg:
+                        prob_src = arg.split('=')[-1]  # get config prob ID
+
+            if "problem_id" in line:
+                prob_out = line.split()[2].split('=')[0]  # get output prob ID
+
+        prob_in = input_file[0].split('.')[-1]  # get input prob ID
+        while True:
+            print('\n*Athena problem file found: ' + prob_src + '*\n')
+            user_input = input(messages['prob_ok'] + '\n')
+            if user_input == 'y': break
+            elif user_input == 'n':
+                getProblemManually()
+                break
+            else:
+                 print(messages['options_err'] + '\n')
+
+    # input file can't be found automatically
+    else:
+        getProblemManually()
 
 
 
@@ -347,9 +365,8 @@ def main():
         # get parameters and construct filename
         vis.prob_out  = prob_out
         vis.prob_in   = prob_in
-        vis.prefix    = 'output/' + vis.prob_out + '.block0.'
+        vis.prefix    = 'output/' + vis.prob_out + '.block0.out2.'
         vis.get_params()
-        vis.move_output_files()
         print(messages['get_data'] + '\n')
         vis.get_data()
         vis.create_csv()

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #  run_athena.sh
 #
@@ -20,65 +20,38 @@
 COUNT=`ls -1 output/*.vtk 2>/dev/null | wc -l`
 if [ $COUNT != 0 ]
   then
-  
-    ANSWERED=false
-    while [ $ANSWERED == 'false' ]
-      do
-        echo "Athena files found. Run anyway? This will overwrite files. (y/n)?"
-        
-        read OVERWRITE
-        OW_FIRST=${OVERWRITE:0:1}
-        
-        if [[ $OW_FIRST == 'y' ]]
-          then
-            ANSWERED=true
-            
-            FOUND_ATHENA='false'
-            while [ $FOUND_ATHENA == 'false' ]
-              do
-                if [ -f athena/bin/athena ]
-                  then
-                    FOUND_ATHENA='true'
-                    rm output/*.vtk
-                    
-                    echo "\nPress any key to begin. (This may take a while.)"
-                    read -n 1
-
-                    echo "Running Athena..."
-                    cd athena/bin
-                    ./athena -i athinput.$1
-                    mv *.vtk ../../output
-                    echo "Simulation complete.\n"
-                    cd ..
-                else
-                    echo "\nCan't run Athena, configuration didn't occur correctly!"
-                    echo "Trying to reconfig. If this doesn't work, try again while letting original configuation proceed uninterrupted.\n"
-                    cd athena
-                    make
-                    cd ..
-                fi
-              done
-            
-        elif [[ $OW_FIRST == 'n' ]]
-          then
-            ANSWERED=true
-            echo "Understood. Skipping simulation.\n"
-            
-        else
-            echo "Please answer yes or no. Thank you.\n"
-
-        fi
-      done
-    
+     printf "Warning: Athena files found. This will overwrite files if they're the same simulation."
+     FOUND_ATHENA='false'
+     while [ $FOUND_ATHENA = 'false' ]
+     do
+         if [ -f athena/bin/athena ]
+           then
+             FOUND_ATHENA='true'
+             rm output/*.vtk
+             printf "\nPress any key to begin. (This may take a while.)"
+             read -n 1
+             printf "\nRunning Athena...\n"
+             cd athena/bin
+             ./athena -i athinput.$1
+             #mv *.vtk ../../output  # move to visualization.py
+             printf "Simulation complete.\n"
+             cd ..
+         else
+             printf "\nCan't run Athena, configuration didn't occur correctly!"
+             printf "Trying to reconfig. If this doesn't work, try again while\n"
+             printf "    letting original configuation proceed uninterrupted.\n"
+             cd athena
+             make
+             cd ..
+         fi
+     done
 else
     echo "Press any key to begin. (This may take a while.)"
     read -n 1
-
     echo "Running Athena..."
     cd athena/bin
     ./athena -i athinput.$1
     mv *.vtk ../../output
     echo "Simulation complete.\n"
     cd ..
-    
 fi

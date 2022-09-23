@@ -15,8 +15,9 @@ pgen_fail_7:        will need to be written. (See docs.)
 path_err_1:Couldn't find the input file in the Athena bin folder. Let's try
 path_err_2:   identifying it. (NOTE - It's best if you manually find an input file
 path_err_3:   and move it to the bin folder, this is not comprehensively reliable.)
-input_prob:Please enter an exact problem file ID.
-prob_err:Invalid problem ID. Here are what's available in hydro and MHD.
+input_prob:Please enter an exact problem file ID. Press Enter to see a list.
+prob_err:Invalid problem ID.
+prob_list:Here are what's available in hydro and MHD.
 path_warn_1:Tried to automatically move appropriate input file. If you don't
 path_warn_2:   see it in the Athena++ bin folder, then you'll have to manually
 path_warn_3:   move the file their yourself; otherwise it may not exist and
@@ -30,13 +31,16 @@ ext_err_3:    future to support parallel processing.
 ext_out_y:Alright, continuing on then...
 ext_out_n:Noted. Switching off visualization.
 input_ext:Is this okay? (y/n)
-input_mag_field:Use magnetic fields? (y/n)
+input_mag_field:Use magnetic fields? Will need to be in source problem file. (y/n)
 input_var_0:Choose variable.
 input_var_1:1. Density
 input_var_2:2. Pressure
 input_var_3:3. Magnetic Field Strength
 input_min:Minimum variable quantity - 
 input_max:Maximum variable quantity - 
+config_err1:ERROR - There was an issue with the configuration. Make sure in the
+config_err2:        input file that the "configure" field is correct, particularly
+config_err3:        the problem specified. Exiting...
 processing:Determining variables for processing...
 get_data:Retrieving data...
 enjoy:Processing and rendering complete. Enjoy your movie!

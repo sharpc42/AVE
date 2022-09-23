@@ -13,6 +13,6 @@ def return_omag(amt,ord):
 # filename is assumed prefix plus zeroes plus
 # output file number plus suffix
 def create_filename(prefix,suffix,num):
-    mag = omag.return_omag(num,0)
+    mag = return_omag(num,0)
     filename = prefix + ('0' * (4 - mag)) + str(num) + suffix
     return filename
